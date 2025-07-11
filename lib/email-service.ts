@@ -10,8 +10,7 @@ export class EmailService {
   private rateLimiter: RateLimiter
   private circuitBreakers: Map<string, CircuitBreaker> = new Map()
   private logger: Logger
-  private sentEmails: Set<string> = new Set() // For idempotency
-
+  private sentEmails: Set<string> = new Set() 
   constructor(
     providers: IEmailProvider[],
     options: {
@@ -23,8 +22,6 @@ export class EmailService {
     this.providers = providers
     this.rateLimiter = new RateLimiter(options.rateLimit?.requests || 10, options.rateLimit?.windowMs || 60000)
     this.logger = new Logger()
-
-    // Initialize circuit breakers for each provider
     this.providers.forEach((provider) => {
       this.circuitBreakers.set(
         provider.name,
@@ -39,8 +36,6 @@ export class EmailService {
 
   async sendEmail(request: EmailRequest): Promise<EmailStatus> {
     const emailId = this.generateEmailId(request)
-
-    // Check for idempotency
     if (this.sentEmails.has(emailId)) {
       const existingStatus = this.emailStatuses.get(emailId)
       if (existingStatus) {
@@ -48,8 +43,6 @@ export class EmailService {
         return existingStatus
       }
     }
-
-    // Check rate limiting
     if (!this.rateLimiter.isAllowed()) {
       const status: EmailStatus = {
         id: emailId,
@@ -71,8 +64,6 @@ export class EmailService {
 
     this.emailStatuses.set(emailId, status)
     this.logger.info(`Starting email send: ${emailId}`)
-
-    // Start async sending process
     this.processSendEmail(request, status)
 
     return status
@@ -115,8 +106,6 @@ export class EmailService {
         } catch (error) {
           lastError = error as Error
           this.logger.error(`Provider ${provider.name} failed:`, error)
-
-          // If this was the last provider, wait before retrying
           if (provider === this.providers[this.providers.length - 1] && attempt < maxRetries) {
             const delay = this.calculateBackoffDelay(attempt)
             this.logger.info(`Waiting ${delay}ms before retry ${attempt + 1}`)
@@ -125,13 +114,10 @@ export class EmailService {
         }
       }
     }
-
-    // All attempts failed
     status.status = "failed"
     status.error = lastError?.message || "All providers failed"
     status.timestamp = new Date().toISOString()
     this.emailStatuses.set(status.id, { ...status })
-
     this.logger.error(`Email failed after all attempts: ${status.id}`)
   }
 
@@ -144,17 +130,14 @@ export class EmailService {
   }
 
   private generateEmailId(request: EmailRequest): string {
-    // Create deterministic ID for idempotency
     const content = `${request.to}-${request.subject}-${request.body}`
     return generateId(content)
   }
 
   private calculateBackoffDelay(attempt: number): number {
-    const baseDelay = 1000 // 1 second
-    const maxDelay = 30000 // 30 seconds
+    const baseDelay = 1000 
+    const maxDelay = 30000 
     const delay = Math.min(baseDelay * Math.pow(2, attempt - 1), maxDelay)
-
-    // Add jitter to prevent thundering herd
     return delay + Math.random() * 1000
   }
 
@@ -162,7 +145,6 @@ export class EmailService {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
-  // Health check methods
   getProviderHealth(): Record<string, { isHealthy: boolean; isOpen: boolean }> {
     const health: Record<string, { isHealthy: boolean; isOpen: boolean }> = {}
 
