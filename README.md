@@ -2,24 +2,22 @@
 
 A robust, production-ready email sending service built with TypeScript that implements multiple resilience patterns including retry logic, fallback providers, circuit breakers, rate limiting, and idempotency.
 
-## 🚀 Features
-
 ### Core Requirements
-- ✅ **EmailService Class**: Centralized service with two mock email providers
-- ✅ **Retry Logic**: Exponential backoff with configurable max attempts
-- ✅ **Fallback Mechanism**: Automatic provider switching on failure
-- ✅ **Idempotency**: Prevents duplicate email sends using content-based IDs
-- ✅ **Rate Limiting**: Configurable request throttling
-- ✅ **Status Tracking**: Real-time monitoring of email sending attempts
+-  **EmailService Class**: Centralized service with two mock email providers
+-  **Retry Logic**: Exponential backoff with configurable max attempts
+-  **Fallback Mechanism**: Automatic provider switching on failure
+-  **Idempotency**: Prevents duplicate email sends using content-based IDs
+-  **Rate Limiting**: Configurable request throttling
+-  **Status Tracking**: Real-time monitoring of email sending attempts
 
 ### Bonus Features
-- ✅ **Circuit Breaker Pattern**: Prevents cascading failures
-- ✅ **Comprehensive Logging**: Structured logging with multiple levels
-- ✅ **Queue System**: Asynchronous email processing
-- ✅ **Health Monitoring**: Provider health checks and metrics
-- ✅ **Web Interface**: Interactive demo with real-time status updates
+-  **Circuit Breaker Pattern**: Prevents cascading failures
+-  **Comprehensive Logging**: Structured logging with multiple levels
+-  **Queue System**: Asynchronous email processing
+-  **Health Monitoring**: Provider health checks and metrics
+-  **Web Interface**: Interactive demo with real-time status updates
 
-## 🏗️ Architecture
+###  Architecture
 
 ### Design Principles
 - **SOLID Principles**: Clean, maintainable, and extensible code
@@ -30,7 +28,7 @@ A robust, production-ready email sending service built with TypeScript that impl
 
 ### Key Components
 
-\`\`\`
+```
 lib/
 ├── email-service.ts          # Main EmailService class
 ├── types.ts                  # TypeScript interfaces
@@ -41,54 +39,46 @@ lib/
     ├── circuit-breaker.ts    # Circuit breaker pattern
     ├── logger.ts             # Structured logging
     └── helpers.ts            # Utility functions
-\`\`\`
-
-## 🛠️ Setup Instructions
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+```
 
 ### Installation
 
 1. **Clone the repository**
-   \`\`\`bash
+   ```bash
    git clone <repository-url>
    cd resilient-email-service
-   \`\`\`
+   ```
 
 2. **Install dependencies**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 3. **Run the development server**
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 4. **Open the demo**
-   Navigate to \`http://localhost:3000\` to see the interactive demo
+   Navigate to \`http://localhost:3000\` to see the interactive
+   demo Live Link : 
 
 ### Running Tests
-\`\`\`bash
+```bash
 npm test
-\`\`\`
+```
 
 ### Running the Test Script
-\`\`\`bash
+```bash
 node scripts/test-email-service.js
-\`\`\`
-
-## 📖 Usage
+```
 
 ### Basic Usage
 
-\`\`\`typescript
+```typescript
 import { EmailService } from './lib/email-service'
 import { MockEmailProviderA, MockEmailProviderB } from './lib/providers/mock-providers'
 
-// Initialize service with providers
 const emailService = new EmailService([
   new MockEmailProviderA(),
   new MockEmailProviderB()
@@ -98,7 +88,6 @@ const emailService = new EmailService([
   rateLimit: { requests: 10, windowMs: 60000 }
 })
 
-// Send an email
 const status = await emailService.sendEmail({
   to: 'recipient@example.com',
   from: 'sender@example.com',
@@ -107,7 +96,7 @@ const status = await emailService.sendEmail({
 })
 
 console.log('Email status:', status)
-\`\`\`
+```
 
 ### API Endpoints
 
@@ -116,7 +105,7 @@ console.log('Email status:', status)
 
 ### Configuration Options
 
-\`\`\`typescript
+```typescript
 interface EmailServiceOptions {
   maxRetries?: number        // Default: 3
   baseDelay?: number         // Default: 1000ms
@@ -125,9 +114,7 @@ interface EmailServiceOptions {
     windowMs: number         // Default: 60000ms
   }
 }
-\`\`\`
-
-## 🔧 Implementation Details
+```
 
 ### Retry Logic
 - **Exponential Backoff**: Delays increase exponentially (1s, 2s, 4s, ...)
@@ -150,7 +137,7 @@ interface EmailServiceOptions {
 - **Duplicate Detection**: Prevents sending identical emails
 - **Status Preservation**: Returns existing status for duplicates
 
-## 🧪 Testing Strategy
+### Testing Strategy
 
 ### Unit Tests
 - **Service Logic**: Core EmailService functionality
@@ -168,8 +155,6 @@ interface EmailServiceOptions {
 - **Network Delays**: Realistic response times
 - **Error Scenarios**: Various failure types
 
-## 📊 Monitoring & Observability
-
 ### Logging
 - **Structured Logs**: JSON format with timestamps
 - **Log Levels**: Debug, Info, Warn, Error
@@ -186,7 +171,7 @@ interface EmailServiceOptions {
 - **Circuit Breaker State**: Open/closed status
 - **Rate Limit Status**: Current usage
 
-## 🔒 Error Handling
+### Error Handling
 
 ### Error Types
 - **Provider Errors**: Network failures, service unavailable
@@ -200,7 +185,7 @@ interface EmailServiceOptions {
 - **Circuit Recovery**: Automatic healing after timeout
 - **Graceful Degradation**: Meaningful error messages
 
-## 🚀 Production Considerations
+### Production Considerations
 
 ### Scalability
 - **Horizontal Scaling**: Stateless service design
@@ -219,23 +204,3 @@ interface EmailServiceOptions {
 - **Error Tracking**: Sentry or similar service
 - **Performance Monitoring**: APM tools
 - **Alerting**: Critical failure notifications
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request
-
-## 📄 License
-
-MIT License - see LICENSE file for details
-
-## 🙋‍♂️ Support
-
-For questions or issues:
-1. Check the documentation
-2. Review existing issues
-3. Create a new issue with detailed information
-4. Include logs and reproduction steps
