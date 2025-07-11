@@ -71,7 +71,6 @@ export default function EmailServiceDemo() {
         return <Clock className="h-4 w-4 text-blue-500" />
     }
   }
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case "sent":
@@ -84,7 +83,6 @@ export default function EmailServiceDemo() {
         return "bg-blue-100 text-blue-800"
     }
   }
-
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -94,9 +92,7 @@ export default function EmailServiceDemo() {
             Test the email service with retry logic, fallback providers, and status tracking
           </p>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Email Form */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -108,32 +104,15 @@ export default function EmailServiceDemo() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">To Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="recipient@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input id="email" type="email" placeholder="recipient@example.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
-                <Input
-                  id="subject"
-                  placeholder="Email subject"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
+                <Input id="subject" placeholder="Email subject" value={subject} onChange={(e) => setSubject(e.target.value)}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="body">Message</Label>
-                <Textarea
-                  id="body"
-                  placeholder="Email message"
-                  rows={4}
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                />
+                <Textarea id="body"  placeholder="Email message" rows={4} value={body}  onChange={(e) => setBody(e.target.value)} />
               </div>
               <Button onClick={sendEmail} disabled={isLoading || !email || !subject || !body} className="w-full">
                 {isLoading ? (
@@ -147,8 +126,6 @@ export default function EmailServiceDemo() {
               </Button>
             </CardContent>
           </Card>
-
-          {/* Status Tracking */}
           <Card>
             <CardHeader>
               <CardTitle>Email Status Tracking</CardTitle>
@@ -180,8 +157,6 @@ export default function EmailServiceDemo() {
             </CardContent>
           </Card>
         </div>
-
-        {/* Features Overview */}
         <Card>
           <CardHeader>
             <CardTitle>Service Features</CardTitle>
